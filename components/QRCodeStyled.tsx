@@ -1,5 +1,6 @@
 import QRCodeStyling, { FileExtension } from 'qr-code-styling'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import Image from 'next/image'
 
 const qrCodeFormats = ['png', 'svg', 'jpeg', 'webp']
 
@@ -19,6 +20,7 @@ const qrCode = new QRCodeStyling({
 
 const QRCodeComp = (props: QrCodeCompProps) => {
   const qrCodeImage = useRef<HTMLDivElement | null>(null)
+  const [imgUrl, setImgUrl] = useState<string | null>(null)
 
   const qrCodeFormatSelectionBox = useRef<HTMLSelectElement | null>(null)
   const [qrCodeFormat, setQrCodeFormat] = useState(qrCodeFormats[0])
@@ -34,12 +36,16 @@ const QRCodeComp = (props: QrCodeCompProps) => {
   }
 
   useEffect(() => {
-    qrCode.append(qrCodeImage.current as HTMLElement)
-  }, [])
-
-  useEffect(() => {
+    // qrCode.append(qrCodeImage.current as HTMLElement)
     qrCode.update({
       data: 'http://9o.at/R1_V6_G0000A00000_kkkkkkkkkkkkkkkkkkkkk',
+    })
+    qrCode.getRawData('svg').then((item) => {
+      if (item == null) return
+
+      var urlCreator = window.URL || window.webkitURL
+      const imgUrl = urlCreator.createObjectURL(item as Blob)
+      setImgUrl(imgUrl)
     })
   }, [])
 
@@ -49,6 +55,13 @@ const QRCodeComp = (props: QrCodeCompProps) => {
         data: props.data,
       })
     }
+    qrCode.getRawData('svg').then((item) => {
+      if (item == null) return
+
+      var urlCreator = window.URL || window.webkitURL
+      const imgUrl = urlCreator.createObjectURL(item as Blob)
+      setImgUrl(imgUrl)
+    })
   }, [props.data])
 
   const download = () => {
@@ -59,9 +72,11 @@ const QRCodeComp = (props: QrCodeCompProps) => {
   }
   return (
     <>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center justify-center">
         <div className="" ref={qrCodeImage}></div>
-
+        {imgUrl && (
+          <Image alt='QR code' src={imgUrl} width={300} priority height={300}></Image>
+        )}
         <div>
           <select
             ref={qrCodeFormatSelectionBox}
@@ -70,7 +85,7 @@ const QRCodeComp = (props: QrCodeCompProps) => {
             onChange={onSelectionChange}
           >
             {qrCodeFormats.map((item: string) => (
-              <option key={item.indexOf(item)}>{item}</option>
+              <option key={qrCodeFormats.indexOf(item)}>{item}</option>
             ))}
           </select>
           <div

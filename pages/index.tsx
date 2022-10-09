@@ -94,44 +94,43 @@ const Home: NextPageWithLayout = () => {
         <title>Tom&apos;s QR generator</title>
       </Head>
       <div className="flex justify-center h-full w-full">
-        <div className="flex flex-col 2xl:flex-row justify-center w-full items-center p-5">
-          <div className="flex flex-col h-3/6 justify-evenly items-center w-1/6 mb-10">
+        <div className="flex flex-col xl:flex-row justify-center w-full items-center p-5">
+          <div className="flex flex-col h-4/6 justify-evenly items-start w-2/6 mb-10">
             <select
               ref={httpSelectionRef}
-              className="select select-bordered"
+              className="select select-bordered mb-2"
               defaultValue={http[0]}
               onChange={onSelectionChange}
             >
               {http.map((item: string) => (
-                <option key={item.indexOf(item)}>{item}</option>
+                <option key={http.indexOf(item)}>{item}</option>
               ))}
             </select>
             <input
               onChange={onProductChange}
-              className="input input-bordered"
+              className="input input-bordered w-5/6 mb-2"
               placeholder={'Product name'}
               defaultValue={productName}
             />
             <input
-              className="input input-bordered"
+              className="input input-bordered w-5/6 mb-2"
               placeholder="Version number"
               defaultValue={versionNumber}
               onChange={onVersionChange}
             />
             <input
-              className="input input-bordered"
+              className="input input-bordered w-5/6 mb-2"
               placeholder="Serial number"
               defaultValue={serialNumber}
               onChange={onSerialChange}
             />
-
             <input
-              className="input input-bordered"
+              className="input input-bordered w-5/6 mb-2"
               placeholder="Key"
               defaultValue={key}
               onChange={onKeyChange}
             />
-            <p className="mt-2">{dummyText}</p>
+            <p className="mb-2 whitespace-normal w-5/6 break-words">{dummyText}</p>
             <p className="mb-2">Current text length: {dummyText.length}</p>
             <button className="btn" onClick={generate}>
               Generate QR code
