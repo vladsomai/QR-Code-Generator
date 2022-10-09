@@ -16,6 +16,9 @@ const qrCode = new QRCodeStyling({
   backgroundOptions: { color: '#ffffff' },
   cornersSquareOptions: { type: 'extra-rounded', color: '#000000' },
   cornersDotOptions: { type: 'dot', color: '#000000' },
+  qrOptions:{
+    errorCorrectionLevel:'L'
+  }
 })
 
 const QRCodeComp = (props: QrCodeCompProps) => {
