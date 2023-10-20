@@ -56,7 +56,7 @@ const Home: NextPageWithLayout = () => {
     return (
         <>
             <Head>
-                <title>Tom&apos;s QR generator</title>
+                <title>QR Code generator</title>
             </Head>
             <div className="flex justify-center h-full w-full">
                 <div className="flex flex-col xl:flex-row justify-center w-full items-center p-5">
